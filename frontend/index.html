@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media Campaign Analyzer</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    :root {
+      --bg: #eef4ff;
+      --card: #ffffff;
+      --line: #dbe7ff;
+      --text: #172033;
+      --muted: #5b6780;
+      --primary: #0f62fe;
+      --primary-dark: #0b4fd1;
+      --accent: #14b8a6;
+      --warn: #f59e0b;
+      --danger: #dc2626;
+      --shadow: 0 14px 32px rgba(19, 44, 90, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(20, 184, 166, 0.12), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero, .panel, .card, .chart-box, .table-box, .auth-box, .reports-box {
+      background: rgba(255,255,255,0.94);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 { margin: 0 0 8px; font-size: 2.4rem; }
+    .hero p { margin: 0; color: var(--muted); }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    input, select, button {
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid #c9d9ff;
+      font-size: 14px;
+    }
+
+    input, select { background: white; }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+    button:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    .secondary { background: #e8f0ff; color: var(--primary); }
+    .secondary:hover { background: #dce8ff; }
+
+    .danger { background: var(--danger); }
+    .danger:hover { background: #b91c1c; }
+
+    .status { color: var(--muted); margin: 8px 0 0; }
+
+    .auth-grid, .summary-grid, .charts-grid {
+      display: grid;
+      gap: 20px;
+    }
+    .auth-grid, .summary-grid, .charts-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .kpi-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .kpi {
+      background: linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+      border: 1px solid #d9e6ff;
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .kpi h3 { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+    .kpi p { margin: 0; font-size: 22px; font-weight: 700; }
+
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+    th, td {
+      border: 1px solid #e5edff;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+    th { background: #f5f9ff; }
+
+    ul { margin: 0; padding-left: 20px; }
+    .muted { color: var(--muted); }
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef5ff;
+      color: var(--primary);
+      font-size: 12px;
+      margin-right: 8px;
+    }
+    .report-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eef2ff;
+    }
+    .report-item:last-child { border-bottom: none; }
+
+    @media (max-width: 900px) {
+      .auth-grid, .summary-grid, .charts-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <h1>Social Media Campaign Analyzer</h1>
+      <p>Upload datasets, analyze campaign performance, detect anomalies, forecast clicks, save reports, and export results.</p>
+    </div>
+
+    <div class="auth-grid">
+      <div class="auth-box">
+        <h2>Register / Login</h2>
+        <div class="row">
+          <input id="username" placeholder="Username" />
+          <input id="password" type="password" placeholder="Password" />
+        </div>
+        <div class="row" style="margin-top:12px;">
+          <button id="registerBtn">Register</button>
+          <button id="loginBtn" class="secondary">Login</button>
+          <button id="logoutBtn" class="danger">Logout</button>
+        </div>
+        <p id="authStatus" class="status"></p>
+      </div>
+
+      <div class="reports-box">
+        <h2>Saved Reports</h2>
+        <div id="reportsList" class="muted">Log in to load saved reports.</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Dataset Controls</h2>
+      <div class="row">
+        <input type="file" id="fileInput" />
+        <button id="loadBtn">Load Dataset</button>
+      </div>
+
+      <div class="row" style="margin-top: 14px;">
+        <select id="genderFilter"><option value="All">All Genders</option></select>
+        <select id="ageFilter"><option value="All">All Ages</option></select>
+        <select id="campaignFilter"><option value="All">All Campaigns</option></select>
+        <button id="analyzeBtn">Run Analysis</button>
+      </div>
+
+      <p id="status" class="status"></p>
+    </div>
+
+    <div id="dashboard"></div>
+  </div>
+
+  <script src="/frontend/app.js"></script>
+</body>
+</html>
+
+
