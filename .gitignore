@@ -1,0 +1,11 @@
+.venv/
+.vscode/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+flask_version/backend/.venv/
+flask_version/frontend/node_modules/
+flask_version/backend/app.db

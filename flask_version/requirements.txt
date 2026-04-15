@@ -1,8 +1,6 @@
-streamlit
-pandas
-plotly
-openpyxl
 flask
+pandas
+openpyxl
 numpy
 scikit-learn
 reportlab
