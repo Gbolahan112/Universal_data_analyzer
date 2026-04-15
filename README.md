@@ -1,68 +1,55 @@
 # Universal Data Analyzer
 
-This repository contains two separate versions of the project:
+Universal Data Analyzer is a portfolio project that explores two different ways to build analytics tools:
 
-- `streamlit_version/` for the quick prototype dashboard
-- `flask_version/` for the full frontend/backend analytics app
+- a rapid prototype version with Streamlit
+- a more advanced full-stack version with Flask, JavaScript, authentication, saved reports, exports, anomaly detection, and forecasting
+
+This repository is organized so each version is easy to run, demo, and explain.
+
+## Highlights
+
+- Upload CSV and Excel datasets
+- Generate KPIs and business insights
+- Visualize data with interactive charts
+- Filter campaign data by user-selected fields
+- Save reports and export analysis in the Flask version
+- Demonstrate both fast prototyping and fuller product development workflows
 
 ## Project Structure
 
 ```text
 social_media_tracker/
 |-- streamlit_version/
-|   |-- streamlit_app.py
+|   |-- app.py
 |   |-- campaign_data.xlsx
-|   `-- requirements.txt
+|   |-- requirements.txt
+|   `-- README.md
 |-- flask_version/
 |   |-- backend/
 |   |   |-- flask_app.py
-|   |   |-- analysis.py
 |   |   `-- app.db
 |   |-- frontend/
 |   |   |-- app.js
 |   |   |-- index.html
 |   |   |-- package.json
 |   |   `-- package-lock.json
-|   `-- requirements.txt
+|   |-- requirements.txt
+|   `-- README.md
 |-- .gitignore
 `-- README.md
 ```
 
-## Streamlit Version
-
-Use this version for quick demos and simple exploratory analysis.
-
-### Features
-
-- Upload CSV or Excel files
-- Map columns dynamically
-- Calculate CTR, CPC, and ROI
-- Show KPIs, charts, and recommendations
-- Filter by categorical values in the dataset
-
-### Run It
+## Run The Streamlit Version
 
 ```powershell
 cd C:\Users\user\OneDrive\Desktop\social_media_tracker
 .venv\Scripts\Activate.ps1
 pip install -r streamlit_version\requirements.txt
-streamlit run streamlit_version\streamlit_app.py
+streamlit run streamlit_version\app.py
 ```
 
-## Flask Version
-
-Use this version for the fuller portfolio app with login, saved reports, exports, anomaly detection, and forecasting.
-
-### Features
-
-- Register and login users
-- Upload CSV or Excel files
-- Run advanced campaign analysis
-- Save reports in SQLite
-- Export PDF and Excel reports
-- Detect anomalies and generate simple forecasts
-
-### Run It
+## Run The Flask Version
 
 ```powershell
 cd C:\Users\user\OneDrive\Desktop\social_media_tracker
@@ -78,10 +65,10 @@ Then open:
 http://127.0.0.1:5000
 ```
 
-## Which One To Use
+## Which Version To Use
 
-- Choose `streamlit_version` if you want the faster and simpler demo.
-- Choose `flask_version` if you want the more polished full-stack application.
+- Choose `streamlit_version` for quick demos and lightweight analysis.
+- Choose `flask_version` for the richer full-stack portfolio app.
 
 ## Live Demo
 
